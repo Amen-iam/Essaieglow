@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AfroGlow</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #0A0A0A;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+        
+        .phone-container {
+            width: 393px;
+            height: 852px;
+            background: linear-gradient(180deg, #0A0A0A 0%, #1a1a1a 100%);
+            border-radius: 40px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 50px rgba(255, 107, 0, 0.3);
+        }
+        
+        /* Splash Screen */
+        .splash-screen {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #0A0A0A 0%, #1a1a1a 50%, #0A0A0A 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            z-index: 100;
+        }
+        
+        .logo-glow {
+            font-size: 42px;
+            font-weight: 700;
+            color: #FFC107;
+            text-shadow: 0 0 20px #FF6B00, 0 0 40px #FFC107;
+            letter-spacing: 2px;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.8; }
+        }
+        
+        .bracelet-animation {
+            width: 80px;
+            height: 80px;
+            border: 3px solid #00A86B;
+            border-radius: 50%;
+            margin: 30px 0;
+            position: relative;
+            animation: rotate 3s linear infinite;
+        }
+        
+        .bracelet-animation::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 60px;
+            height: 60px;
+            background: #FF6B00;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            animation: glow 1.5s ease-in-out infinite;
+        }
+        
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 0 20px #FF6B00; }
+            50% { box-shadow: 0 0 40px #FF6B00, 0 0 60px #FFC107; }
+        }
+        
+        /* Onboarding */
+        .onboarding {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, #0A0A0A 0%, #1a1a1a 100%);
+            position: absolute;
+            display: none;
+            flex-direction: column;
+        }
+        
+        .onboarding.active { display: flex; }
+        
+        .onboarding-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+        }
+        
+        .onboarding-image {
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(135deg, #FF6B00, #FFC107);
+            border-radius: 30px;
+            margin-bottom: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 80px;
+        }
+        
+        .onboarding-text h2 {
+            font-size: 28px;
+            color: white;
+            margin-bottom: 15px;
+        }
+        
+        .onboarding-text p {
+            color: #999;
+            text-align: center;
+            line-height: 1.6;
+        }
+        
+        .onboarding-dots {
+            display: flex;
+            gap: 10px;
+            margin-top: 40px;
+        }
+        
+        .dot {
+            width: 10px;
+            height: 10px;
+            background: #333;
+            border-radius: 50%;
+        }
+        
+        .dot.active { background: #FF6B00; }
+        
+        .btn-primary {
+            background: linear-gradient(90deg, #FF6B00, #FFC107);
+            color: white;
+            border: none;
+            padding: 18px 40px;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 40px;
+            transition: transform 0.3s;
+        }
+        
+        .btn-primary:hover { transform: scale(1.05); }
+        
+        /* Login Screen */
+        .login-screen {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, #0A0A0A 0%, #1a1a1a 100%);
+            position: absolute;
+            display: none;
+            flex-direction: column;
+            padding: 30px;
+        }
+        
+        .login-screen.active { display: flex; }
+        
+        .app-logo {
+            font-size: 32px;
+            font-weight: 700;
+            color: #FFC107;
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .form-group label {
+            display: block;
+            color: #ccc;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 16px 20px;
+            background: #1a1a1a;
+            border: 2px solid #333;
+            border-radius: 15px;
+            color: white;
+            font-size: 16px;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: #FF6B00;
+        }
+        
+        .country-select {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .flag-icon {
+            width: 30px;
+            height: 20px;
+            background: linear-gradient(to bottom, #CE1126 0%, CE1126 33%, #FFFFFF 33%, #FFFFFF 66%, #00A86B 66%);
+            border-radius: 3px;
+        }
+        
+        /* Home Dashboard */
+        .home-screen {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, #0A0A0A 0%, #1a1a1a 100%);
+            position: absolute;
+            display: none;
+            padding-bottom: 80px;
+        }
+        
+        .home-screen.active { display: block; }
+        
+        .header {
+            padding: 40px 20px 20px;
+            background: linear-gradient(180deg, #0A0A0A 0%, transparent 100%);
+        }
+        
+        .header h1 {
+            color: white;
+            font-size: 24px;
+            font-weight: 600;
+        }
+        
+        .header p {
+            color: #999;
+            font-size: 14px;
+        }
+        
+        .wallet-card {
+            background: linear-gradient(135deg, #FF6B00, #FFC107);
+            margin: 20px;
+            padding: 25px;
+            border-radius: 25px;
+            box-shadow: 0 10px 30px rgba(255, 107, 0, 0.3);
+        }
+        
+        .wallet-balance {
+            color: white;
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .wallet-label {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 14px;
+        }
+        
+        .section-title {
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+            margin: 25px 20px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .view-all {
+            color: #FF6B00;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        
+        .event-card {
+            background: #1a1a1a;
+            margin: 0 20px 15px;
+            padding: 20px;
+            border-radius: 20px;
+            display: flex;
+            gap: 15px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        
+        .event-card:hover { transform: scale(1.02); }
+        
+        .event-poster {
+            width: 80px;
+            height: 100px;
+            background: linear-gradient(135deg, #00A86B, #FF6B00);
+            border-radius: 15px;
+        }
+        
+        .event-info h3 {
+            color: white;
+            font-size: 16px;
+            margin-bottom: 8px;
+        }
+        
+        .event-info p {
+            color: #999;
+            font-size: 12px;
+            margin-bottom: 5px;
+        }
+        
+        /* Wallet Screen */
+        .wallet-screen {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, #0A0A0A 0%, #1a1a1a 100%);
+            position: absolute;
+            display: none;
+            padding-bottom: 80px;
+        }
+        
+        .wallet-screen.active { display: block; }
+        
+        .balance-display {
+            background: linear-gradient(135deg, #FF6B00, #FFC107);
+            margin: 20px;
+            padding: 30px;
+            border-radius: 25px;
+            text-align: center;
+        }
+        
+        .amount {
+            color: white;
+            font-size: 36px;
+            font-weight: 700;
+        }
+        
+        .currency {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 14px;
+        }
+        
+        .payment-methods {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 25px 20px;
+        }
+        
+        .payment-btn {
+            background: #1a1a1a;
+            border: 2px solid #333;
+            border-radius: 20px;
+            padding: 25px 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .payment-btn:hover {
+            border-color: #FF6B00;
+            background: #252525;
+        }
+        
+        .payment-btn img {
+            width: 50px;
+            height: 50px;
+            margin-bottom: 10px;
+        }
+        
+        .payment-btn span {
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            width: 393px;
+            height: 80px;
+            background: linear-gradient(180deg, #1a1a1a 0%, #0A0A0A 100%);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding-bottom: 20px;
+            z-index: 50;
+        }
+        
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            color: #666;
+            font-size: 12px;
+            transition: color 0.3s;
+        }
+        
+        .nav-item.active {
+            color: #FF6B00;
+        }
+        
+        .nav-item svg {
+            width: 24px;
+            height: 24px;
+            margin-bottom: 5px;
+        }
+        
+        /* Event Details */
+        .event-details {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, #0A0A0A 0%, #1a1a1a 100%);
+            position: absolute;
+            display: none;
+            overflow-y: auto;
+            padding-bottom: 80px;
+        }
+        
+        .event-details.active { display: block; }
+        
+        .event-header-img {
+            width: 100%;
+            height: 250px;
+            background: linear-gradient(135deg, #00A86B, #FF6B00);
+            position: relative;
+        }
+        
+        .back-btn {
+            position: absolute;
+            top: 40px;
+            left: 20px;
+            background: rgba(0,0,0,0.5);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 18px;
+        }
+        
+        .event-details-content {
+            padding: 20px;
+        }
+        
+        .event-title {
+            color: white;
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .event-meta {
+            color: #999;
+            margin-bottom: 30px;
+        }
+        
+        .buy-ticket-btn {
+            width: 100%;
+            background: linear-gradient(90deg, #FF6B00, #FFC107);
+            color: white;
+            border: none;
+            padding: 20px;
+            border-radius: 20px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        
+        /* Profile Screen */
+        .profile-screen {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, #0A0A0A 0%, #1a1a1a 100%);
+            position: absolute;
+            display: none;
+            padding-bottom: 80px;
+        }
+        
+        .profile-screen.active { display: block; }
+        
+        .profile-header {
+            text-align: center;
+            padding: 30px;
+        }
+        
+        .profile-avatar {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #FF6B00, #FFC107);
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 40px;
+            color: white;
+        }
+        
+        .profile-name {
+            color: white;
+            font-size: 22px;
+            font-weight: 700;
+        }
+        
+        .profile-bracelet {
+            color: #999;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 15px;
+            margin: 20px;
+        }
+        
+        .stat-card {
+            background: #1a1a1a;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+        }
+        
+        .stat-value {
+            color: white;
+            font-size: 24px;
+            font-weight: 700;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+        
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+    <div class="phone-container">
+        <!-- Splash Screen -->
+        <div class="splash-screen" id="splash">
+            <div class="bracelet-animation"></div>
+            <div class="logo-glow">AfroGlow</div>
+            <p style="color:#999;margin-top:15px;">L'expérience festival connectée</p>
+        </div>
+        
+        <!-- Onboarding Screens -->
+        <div class="onboarding" id="onboarding">
+            <div class="onboarding-content">
+                <div class="onboarding-image">🎪</div>
+                <div class="onboarding-text">
+                    <h2>Explorez les Festivals Africains</h2>
+                    <p>Découvrez les meilleurs événements culturels partout au Bénin et en Afrique de l'Ouest</p>
+                </div>
+                <div class="onboarding-dots">
+                    <div class="dot active"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                </div>
+                <button class="btn-primary" onclick="showLogin()">Continuer →</button>
+            </div>
+        </div>
+        
+        <!-- Login Screen -->
+        <div class="login-screen" id="login">
+            <div class="app-logo">AfroGlow ✨</div>
+            <div class="form-group">
+                <label>Pays</label>
+                <div class="country-select">
+                    <div class="flag-icon"></div>
+                    <span style="color:white;">🇧🇯 Bénin (+229)</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Téléphone</label>
+                <input type="tel" class="form-input" placeholder="+229 XX XX XX XX">
+            </div>
+            <div class="form-group">
+                <label>Mot de passe</label>
+                <input type="password" class="form-input" placeholder="••••••••">
+            </div>
+            <div class="form-group">
+                <label>ID Bracelet AfroGlow *</label>
+                <input type="text" class="form-input" placeholder="AG-XXXX-XXXX">
+            </div>
+            <button class="btn-primary" style="width:100%" onclick="navigateTo('home')">Se connecter</button>
+            <p style="color:#666;text-align:center;margin-top:20px;">Pas encore membre ? <span style="color:#FF6B00;cursor:pointer;">S'inscrire</span></p>
+        </div>
+        
+        <!-- Home Screen -->
+        <div class="home-screen" id="home">
+            <div class="header">
+                <h1>Bonjour, Kofi! 👋</h1>
+                <p>Prêt pour la prochaine aventure ?</p>
+            </div>
+            
+            <div class="wallet-card">
+                <div class="wallet-balance">25 000 FCFA</div>
+                <div class="wallet-label">Solde disponible</div>
+            </div>
+            
+            <div class="section-title">
+                <span>Festivals à venir</span>
+                <span class="view-all" onclick="navigateTo('events')">Voir tout</span>
+            </div>
+            
+            <div class="event-card" onclick="showEventDetails('Vodoun Festival')">
+                <div class="event-poster"></div>
+                <div class="event-info">
+                    <h3>Vodoun Festival 2026</h3>
+                    <p>📍 Ouidah, Bénin</p>
+                    <p>📅 15 Janvier 2026</p>
+                </div>
+            </div>
+            
+            <div class="event-card" onclick="showEventDetails('Benin Jazz Night')">
+                <div class="event-poster" style="background:linear-gradient(135deg,#FF6B00,#FFC107)"></div>
+                <div class="event-info">
+                    <h3>Benin Jazz Night</h3>
+                    <p>📍 Cotonou, Bénin</p>
+                    <p>📅 22 Janvier 2026</p>
+                </div>
+            </div>
+            
+            <div class="section-title">Amis présents</div>
+            <div style="display:flex;gap:10px;padding:0 20px 20px;">
+                <div style="width:50px;height:50px;background:#333;border-radius:50%"></div>
+                <div style="width:50px;height:50px;background:#333;border-radius:50%"></div>
+                <div style="width:50px;height:50px;background:#333;border-radius:50%"></div>
+                <div style="width:50px;height:50px;background:#333;border-radius:50%;border:2px dashed #FF6B00;"></div>
+            </div>
+        </div>
+        
+        <!-- Events Screen -->
+        <div class="home-screen" id="events">
+            <div class="header">
+                <h1>Tous les Événements</h1>
+                <p>Plus de 50 festivals cette saison</p>
+            </div>
+            <div class="section-title">Recommandés pour vous</div>
+            <div class="event-card" onclick="showEventDetails('Festival Zoma')">
+                <div class="event-poster" style="background:linear-gradient(135deg,#00A86B,#0A0A0A)"></div>
+                <div class="event-info">
+                    <h3>Festival Zoma</h3>
+                    <p>📍 Porto-Novo</p>
+                    <p>🎵 Musique & Culture</p>
+                </div>
+            </div>
+            <div class="event-card" onclick="showEventDetails('Sunset Grooves')">
+                <div class="event-poster" style="background:linear-gradient(135deg,#FFC107,#FF6B00)"></div>
+                <div class="event-info">
+                    <h3>Sunset Grooves</h3>
+                    <p>📍 Sèmè</p>
+                    <p>🌅 Beach Party</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Wallet Screen -->
+        <div class="wallet-screen" id="wallet">
+            <div class="header">
+                <h1>AfroPay 💳</h1>
+                <p>Gérez vos paiements sans contact</p>
+            </div>
+            
+            <div class="balance-display">
+                <div class="amount">25 000</div>
+                <div class="currency">FCFA • CFA Franc</div>
+            </div>
+            
+            <div class="section-title">Recharger le portefeuille</div>
+            <div class="payment-methods">
+                <div class="payment-btn" onclick="rechargeWallet('MTN MoMo')">
+                    <div style="font-size:30px;">🟡</div>
+                    <span>MTN MoMo</span>
+                </div>
+                <div class="payment-btn" onclick="rechargeWallet('Moov Money')">
+                    <div style="font-size:30px;">🔴</div>
+                    <span>Moov Money</span>
+                </div>
+            </div>
+            
+            <div class="section-title">Actions rapides</div>
+            <div class="event-card" style="margin:0 20px;">
+                <div style="font-size:30px;">📱</div>
+                <div class="event-info">
+                    <h3>Payer avec QR Code</h3>
+                    <p>Scannez chez les vendeurs</p>
+                </div>
+            </div>
+            <div class="event-card" style="margin:0 20px;">
+                <div style="font-size:30px;">💫</div>
+                <div class="event-info">
+                    <h3>Paiement NFC Bracelet</h3>
+                    <p>Balayez simplement</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Social Screen -->
+        <div class="home-screen" id="social">
+            <div class="header">
+                <h1>AfroLink 📱</h1>
+                <p>Restez connecté pendant les festivals</p>
+            </div>
+            <div class="section-title">Stories</div>
+            <div style="display:flex;gap:15px;padding:0 20px 20px;overflow-x:auto;">
+                <div style="min-width:100px;height:150px;background:#333;border-radius:15px;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#999;">+ Votre Story</div>
+                <div style="min-width:100px;height:150px;background:#333;border-radius:15px;"></div>
+                <div style="min-width:100px;height:150px;background:#333;border-radius:15px;"></div>
+            </div>
+            <div class="section-title">Flux d'activités</div>
+            <div class="event-card">
+                <div style="width:50px;height:50px;background:#333;border-radius:50%"></div>
+                <div class="event-info">
+                    <h3>Marcos</h3>
+                    <p>✨ Arrivé au Vodoun Festival</p>
+                    <p style="color:#999;margin-top:5px;">Il y a 2 heures</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Profile Screen -->
+        <div class="profile-screen" id="profile">
+            <div class="profile-header">
+                <div class="profile-avatar">K</div>
+                <div class="profile-name">Kofi Mensah</div>
+                <div class="profile-bracelet">📿 AG-3948-AB21</div>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value">12</div>
+                    <div class="stat-label">Festivals</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">450</div>
+                    <div class="stat-label">Points</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">8</div>
+                    <div class="stat-label">Amis</div>
+                </div>
+            </div>
+            
+            <div class="section-title">Mon Compte</div>
+            <div class="event-card">
+                <div style="font-size:30px;">💳</div>
+                <div class="event-info">
+                    <h3>Portefeuille</h3>
+                    <p>25 000 FCFA</p>
+                </div>
+            </div>
+            <div class="event-card">
+                <div style="font-size:30px;">⚙️</div>
+                <div class="event-info">
+                    <h3>Paramètres</h3>
+                    <p>Notifications & sécurité</p>
+                </div>
+            </div>
+            <div class="event-card">
+                <div style="font-size:30px;">🤖</div>
+                <div class="event-info">
+                    <h3>AfroCoach IA</h3>
+                    <p>Assistance festival</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Event Details Screen -->
+        <div class="event-details" id="event-details">
+            <div class="event-header-img">
+                <button class="back-btn" onclick="closeEventDetails()">&#8592;</button>
+            </div>
+            <div class="event-details-content">
+                <div class="event-title" id="detail-event-name">Vodoun Festival 2026</div>
+                <div class="event-meta">
+                    <p>📍 Ouidah, Bénin</p>
+                    <p>📅 15-20 Janvier 2026</p>
+                    <p>🎫 À partir de 10 000 FCFA</p>
+                </div>
+                
+                <div class="section-title">Artistes</div>
+                <div style="display:flex;gap:10px;overflow-x:auto;padding-bottom:10px;">
+                    <div style="min-width:80px;height:80px;background:#333;border-radius:10px;"></div>
+                    <div style="min-width:80px;height:80px;background:#333;border-radius:10px;"></div>
+                    <div style="min-width:80px;height:80px;background:#333;border-radius:10px;"></div>
+                </div>
+                
+                <button class="buy-ticket-btn" onclick="alert('Redirection vers paiement...')">Acheter un billet</button>
+                <button style="width:100%;background:transparent;color:#FF6B00;border:2px solid #FF6B00;padding:15px;border-radius:20px;font-size:16px;margin-top:10px;cursor:pointer;">Ajouter aux favoris</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Bottom Navigation -->
+    <div class="bottom-nav" id="bottomNav">
+        <div class="nav-item" id="nav-home" onclick="navigateTo('home')">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+            <span>Accueil</span>
+        </div>
+        <div class="nav-item" id="nav-events" onclick="navigateTo('events')">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+            <span>Événements</span>
+        </div>
+        <div class="nav-item" id="nav-wallet" onclick="navigateTo('wallet')">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 18v1c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2-2V5c0-1.1.89-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.11 0-2 .9-2 2v8c0 1.1.89 2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
+            <span>Portefeuille</span>
+        </div>
+        <div class="nav-item" id="nav-social" onclick="navigateTo('social')">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+            <span>Social</span>
+        </div>
+        <div class="nav-item" id="nav-profile" onclick="navigateTo('profile')">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+            <span>Profil</span>
+        </div>
+    </div>
+    
+    <script>
+        // Initiate app sequence
+        setTimeout(() => {
+            document.getElementById('splash').style.display = 'none';
+            document.getElementById('onboarding').classList.add('active');
+        }, 3000);
+        
+        function showLogin() {
+            document.getElementById('onboarding').classList.remove('active');
+            document.getElementById('login').classList.add('active');
+        }
+        
+        function navigateTo(screen) {
+            // Hide all screens
+            ['home','events','wallet','social','profile'].forEach(s => {
+                if(document.getElementById(s)) {
+                    document.getElementById(s).classList.remove('active');
+                }
+            });
+            
+            // Show selected screen
+            const target = document.getElementById(screen);
+            if(target) target.classList.add('active');
+            
+            // Update nav
+            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+            document.getElementById(`nav-${screen}`).classList.add('active');
+            
+            // Show/hide bottom nav
+            const nav = document.getElementById('bottomNav');
+            nav.style.display = (screen === 'home' || screen === 'events' || screen === 'wallet' || screen === 'social' || screen === 'profile') ? 'flex' : 'none';
+        }
+        
+        function showEventDetails(eventName) {
+            document.getElementById('detail-event-name').textContent = eventName;
+            document.getElementById('event-details').classList.add('active');
+            document.getElementById('bottomNav').style.display = 'none';
+        }
+        
+        function closeEventDetails() {
+            document.getElementById('event-details').classList.remove('active');
+            document.getElementById('bottomNav').style.display = 'flex';
+        }
+        
+        function rechargeWallet(method) {
+            alert(`✅ Demande de rechargement via ${method} envoyée!\nUn SMS sera envoyé pour confirmation.`);
+        }
+        
+        // Initialize home
+        document.getElementById('nav-home').classList.add('active');
+    </script>
+</body>
+</html>
